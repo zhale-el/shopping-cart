@@ -1,3 +1,5 @@
+const productsDOM = document.querySelector(".products-center");
+
 // shopping cart
 let cart = [];
 
@@ -23,7 +25,26 @@ class Product {
 }
 
 // view information from product
-class View {}
+class View {
+  displayProducts(products) {
+    let result = "";
+
+    products.forEach((item) => {
+      result += `
+      <article class="product">
+  <div class="img-container">
+    <img src="${item.image}" alt="${item.title}" class="product-img" />
+    <button class="bag-btn" data-id="${item.id}">افزودن به سبد خرید</button>
+  </div>
+  <h3>${item.title}</h3>
+  <h4>${item.price}</h4>
+</article>
+      
+      `;
+    });
+    productsDOM.innerHTML = result;
+  }
+}
 
 // save product
 class Storage {}
@@ -35,5 +56,5 @@ document.addEventListener("DOMContentLoaded", () => {
   //create new product
   const product = new Product();
 
-  product.getProduct().then((data) => console.log(data));
+  product.getProduct().then((data) => view.displayProducts(data));
 });
