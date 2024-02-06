@@ -47,7 +47,11 @@ class View {
 }
 
 // save product
-class Storage {}
+class Storage {
+  static saveProduct(products) {
+    localStorage.setItem("products", JSON.stringify(products));
+  }
+}
 
 //loading
 document.addEventListener("DOMContentLoaded", () => {
@@ -56,5 +60,8 @@ document.addEventListener("DOMContentLoaded", () => {
   //create new product
   const product = new Product();
 
-  product.getProduct().then((data) => view.displayProducts(data));
+  product.getProduct().then((data) => {
+    view.displayProducts(data);
+    Storage.saveProduct(data);
+  });
 });
