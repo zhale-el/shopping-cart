@@ -44,12 +44,31 @@ class View {
     });
     productsDOM.innerHTML = result;
   }
+
+  getCardButtons() {
+    const buttons = [...document.querySelectorAll(".bag-btn")];
+
+    buttons.forEach((item) => {
+      let id = item.dataset.id;
+
+      item.addEventListener("click", (event) => {
+        let cartItem = Storage.getProduct(id);
+        cart = [...cart, cartItem];
+      });
+    });
+  }
 }
 
 // save product
 class Storage {
   static saveProduct(products) {
     localStorage.setItem("products", JSON.stringify(products));
+  }
+
+  static getProduct(id) {
+    let productsList = JSON.parse(localStorage.getItem("products"));
+
+    return productsList.find((item) => item.id === id);
   }
 }
 
@@ -60,8 +79,13 @@ document.addEventListener("DOMContentLoaded", () => {
   //create new product
   const product = new Product();
 
-  product.getProduct().then((data) => {
-    view.displayProducts(data);
-    Storage.saveProduct(data);
-  });
+  product
+    .getProduct()
+    .then((data) => {
+      view.displayProducts(data);
+      Storage.saveProduct(data);
+    })
+    .then(() => {
+      view.getCardButtons();
+    });
 });
