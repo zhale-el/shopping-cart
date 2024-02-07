@@ -52,8 +52,9 @@ class View {
       let id = item.dataset.id;
 
       item.addEventListener("click", (event) => {
-        let cartItem = Storage.getProduct(id);
+        let cartItem = { ...Storage.getProduct(id), amount: 1 };
         cart = [...cart, cartItem];
+        Storage.saveCart(cart);
       });
     });
   }
@@ -69,6 +70,10 @@ class Storage {
     let productsList = JSON.parse(localStorage.getItem("products"));
 
     return productsList.find((item) => item.id === id);
+  }
+
+  static saveCart(cart) {
+    localStorage.setItem("cart", JSON.stringify(cart));
   }
 }
 
