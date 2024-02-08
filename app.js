@@ -1,5 +1,6 @@
 const productsDOM = document.querySelector(".products-center");
-
+const cartItems = document.querySelector(".cart-items");
+const cartTotal = document.querySelector(".cart-total");
 // shopping cart
 let cart = [];
 
@@ -55,8 +56,21 @@ class View {
         let cartItem = { ...Storage.getProduct(id), amount: 1 };
         cart = [...cart, cartItem];
         Storage.saveCart(cart);
+        this.setCartValues(cart);
       });
     });
+  }
+
+  setCartValues(cart) {
+    let totlaPrice = 0;
+    let totlaItems = 0;
+
+    cart.map((item) => {
+      totlaPrice = totlaPrice + item.price * item.amount;
+      totlaItems = totlaItems + item.amount;
+    });
+    cartTotal.innerHTML = totlaPrice;
+    cartItems.innerText = totlaItems;
   }
 }
 
