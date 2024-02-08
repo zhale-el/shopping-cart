@@ -1,6 +1,7 @@
 const productsDOM = document.querySelector(".products-center");
 const cartItems = document.querySelector(".cart-items");
 const cartTotal = document.querySelector(".cart-total");
+const cartContent = document.querySelector(".cart-content");
 // shopping cart
 let cart = [];
 
@@ -57,6 +58,7 @@ class View {
         cart = [...cart, cartItem];
         Storage.saveCart(cart);
         this.setCartValues(cart);
+        this.addCartItem(cartItem);
       });
     });
   }
@@ -71,6 +73,27 @@ class View {
     });
     cartTotal.innerHTML = totlaPrice;
     cartItems.innerText = totlaItems;
+  }
+
+  addCartItem(item) {
+    const div = document.createElement("div");
+    div.classList.add("cart-item");
+
+    div.innerHTML = `
+      <img src=${item.image} alt=${item.title} />
+      <div>
+        <h4>${item.title}</h4>
+        <h5>${item.price}</h5>
+        <span class="remove-item">حذف</span>
+      </div>
+      <div>
+        <i class="fas fa-chevron-up"></i>
+        <p class="item-amount">${item.amount}</p>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    `;
+
+    cartContent.appendChild(div);
   }
 }
 
