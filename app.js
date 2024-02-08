@@ -2,6 +2,9 @@ const productsDOM = document.querySelector(".products-center");
 const cartItems = document.querySelector(".cart-items");
 const cartTotal = document.querySelector(".cart-total");
 const cartContent = document.querySelector(".cart-content");
+const cartDOM = document.querySelector(".cart");
+const cartOverlay = document.querySelector(".cart-overlay");
+
 // shopping cart
 let cart = [];
 
@@ -59,6 +62,7 @@ class View {
         Storage.saveCart(cart);
         this.setCartValues(cart);
         this.addCartItem(cartItem);
+        this.showCart();
       });
     });
   }
@@ -94,6 +98,11 @@ class View {
     `;
 
     cartContent.appendChild(div);
+  }
+
+  showCart() {
+    cartOverlay.classList.add("transparentBcg");
+    cartDOM.classList.add("showCart");
   }
 }
 
