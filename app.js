@@ -104,6 +104,17 @@ class View {
     cartOverlay.classList.add("transparentBcg");
     cartDOM.classList.add("showCart");
   }
+
+  initApp() {
+    cart = Storage.getCart();
+    this.setCartValues(cart);
+  }
+
+  populate(cart) {
+    cart.forEach((item) => {
+      return this.addCartItem(item);
+    });
+  }
 }
 
 // save product
@@ -121,6 +132,12 @@ class Storage {
   static saveCart(cart) {
     localStorage.setItem("cart", JSON.stringify(cart));
   }
+
+  static getCart() {
+    return localStorage.getItem("cart")
+      ? JSON.parse(localStorage.getItem("cart"))
+      : [];
+  }
 }
 
 //loading
@@ -129,6 +146,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const view = new View();
   //create new product
   const product = new Product();
+
+  view.initApp();
 
   product
     .getProduct()
